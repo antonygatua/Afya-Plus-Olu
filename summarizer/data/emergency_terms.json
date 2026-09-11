@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "language": "en-sw",
+  "description": "Emergency and urgency keywords used by the AfyaPlus summarizer to preserve critical signals before sending a message to a more expensive model.",
+  "notes": "This is the first rule set for the summarizer. It is intentionally focused, transparent, and conservative. It should support critical symptom detection without making diagnostic decisions.",
+  "emergency_terms": [
+    "help",
+    "urgent",
+    "emergency",
+    "cannot breathe",
+    "difficulty breathing",
+    "shortness of breath",
+    "chest pain",
+    "severe pain",
+    "severe bleeding",
+    "bleeding",
+    "unconscious",
+    "fainting",
+    "vomiting blood",
+    "blackout",
+    "collapsed",
+    "panic",
+    "very weak",
+    "feeling like i am dying",
+    "i cannot breathe"
+  ],
+  "swahili_emergency_terms": [
+    "msaada",
+    "saidia",
+    "dharura",
+    "haraka",
+    "siwezi kupumua",
+    "kushindwa kupumua",
+    "sina hewa",
+    "maumivu ya kifua",
+    "maumivu makali",
+    "kuanguka",
+    "kuzimia",
+    "kutapika damu",
+    "kuvuja damu",
+    "mimi siwezi kupumua",
+    "nina shida ya kupumua",
+    "nimeanza kuganga",
+    "nina maumivu ya moyo"
+  ],
+  "severity_keywords": {
+    "high": [
+      "severe",
+      "urgent",
+      "emergency",
+      "cannot breathe",
+      "shortness of breath",
+      "chest pain",
+      "severe pain",
+      "fainting"
+    ],
+    "medium": [
+      "fever",
+      "cough",
+      "weakness",
+      "dizziness",
+      "vomiting",
+      "fatigue"
+    ]
+  }
+}
