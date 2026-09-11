@@ -1,7 +1,9 @@
 """Cost-saving summarization for symptom messages, safe for emergencies.
 
-Shrinks an already-translated user message before it's sent to a more expensive model, while guaranteeing that curated emergency phrases (see emergency_terms.py) always survive in the output -- even if that means
-skipping summarization altogether.
+Shrinks an already-translated user message before it's sent to the health
+assistant (assistant/remote.py), while guaranteeing that curated emergency
+phrases (see emergency_terms.py) always survive in the output -- even if
+that means skipping summarization altogether.
 
 Summarization strategy:
 
@@ -33,7 +35,7 @@ except ImportError:  # pragma: no cover
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_MODEL = "claude-haiku-4-5-20251001"
+DEFAULT_MODEL = "claude-haiku-4-5"
 DEFAULT_MIN_WORDS_TO_SUMMARIZE = 40
 DEFAULT_MAX_SUMMARY_WORDS = 40
 
@@ -74,8 +76,8 @@ class Summarizer:
             use_llm: Explicitly enable/disable the LLM summarization call.
                 Defaults to enabled when an Anthropic API key is available.
             model: Anthropic model used for summarization. Defaults to a
-                cheap/fast model, since this call exists purely to save cost
-                on a more expensive downstream call.
+                fast model, since this call exists to shrink the message
+                before it reaches the health assistant, not to answer it.
             min_words_to_summarize: Messages with fewer words than this are
                 returned unchanged -- summarizing them wouldn't save enough
                 to be worth the extra API call.

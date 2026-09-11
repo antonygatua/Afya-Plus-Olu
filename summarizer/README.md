@@ -2,9 +2,9 @@
 
 ## Overview
 
-The AfyaPlus Summarizer module prepares a raw, possibly mixed Swahili/English user message before it is sent to a more expensive downstream model.
+The AfyaPlus Summarizer module prepares a raw, possibly mixed Swahili/English user message before it is handed to the health assistant (`assistant/remote.py`), which generates the response the patient actually sees.
 
-It translates the message to English, checks it for curated emergency/urgency phrases, and shrinks it with a cheap LLM call when doing so is safe and worth the cost — all while guaranteeing that critical signals like "cannot breathe" are never silently dropped.
+It translates the message to English, checks it for curated emergency/urgency phrases, and shrinks it with an LLM call when doing so is safe and worth it — all while guaranteeing that critical signals like "cannot breathe" are never silently dropped.
 
 ### Pipeline
 
@@ -21,14 +21,14 @@ Skip summarization              Not an emergency
 (send translated text as-is)         ↓
                                 Long enough to be worth summarizing?
                                       ↓
-                                Summarize with a cheap LLM
+                                Summarize with an LLM
                                       ↓
                                 Re-check: did the summary keep every
                                 emergency term? Re-append any it dropped.
                                       ↓
 Final Text
     ↓
-Sent to the more expensive model
+Sent to the health assistant (assistant/remote.py)
 ```
 
 ---
@@ -39,7 +39,7 @@ The summarizer is responsible for:
 
 * Normalizing and translating Swahili/mixed-language messages to English
 * Detecting curated emergency/urgency phrases via cheap, rule-based matching
-* Shrinking long, non-urgent messages with an LLM to reduce cost on the downstream expensive model
+* Shrinking long, non-urgent messages with an LLM before they reach the health assistant
 * Guaranteeing emergency phrases are never silently dropped, even if that means skipping summarization entirely
 * Falling back safely to the untouched message whenever translation or summarization can't be trusted
 
@@ -104,7 +104,7 @@ from summarizer import prepare_message
 
 result = prepare_message("Nina maumivu ya kifua na siwezi kupumua")
 
-print(result.final_text)             # text to hand to the expensive model
+print(result.final_text)             # text to hand to the health assistant
 print(result.emergency.is_emergency) # True
 print(result.was_summarized)         # False -- emergencies skip summarization
 ```

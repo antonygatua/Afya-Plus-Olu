@@ -1,7 +1,8 @@
 """End-to-end message preparation: translate, detect emergencies, summarize.
 
-This is the entrypoint the rest of the app should call before sending a user message to a more expensive model. It wires together the three pieces built
-so far:
+This is the entrypoint the rest of the app should call before handing a user
+message to the health assistant (assistant/remote.py). It wires together the
+three pieces built so far:
 
 1. translator.py -- normalize and translate Swahili/mixed text to English.
 2. emergency_terms.py -- rule-based detection of curated emergency phrases.
@@ -32,7 +33,7 @@ class PipelineResult:
 
     original_text: str
     translated_text: str
-    final_text: str  # what should actually be sent to the expensive model
+    final_text: str  # what should actually be sent to the health assistant
     emergency: EmergencyExtractionResult
     was_summarized: bool
 
